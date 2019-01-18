@@ -1,0 +1,6 @@
+[run]
+omit = 
+    tests/*.py
+    pbs_ci/_version.py
+    versioneer.py
+    setup.py
