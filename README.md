@@ -1,2 +1,3 @@
-# cbs-docker-images
-Cluster Batch Systems (cbs) docker images
+# PBS CI
+
+Continuous integration utility for PBS
