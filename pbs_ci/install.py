@@ -10,8 +10,8 @@ from . import __version__
 
 @click.command()
 @click.version_option(version=__version__)
-@click.argument("container", type=str)
-@click.argument("cmd", type=(str, list))
+@click.option("--container", type=str, help=("Container"))
+@click.option("--cmd", type=str, help=("Command to be executed"))
 def main(container, cmd):
     client = docker.from_env()
     containers = client.containers

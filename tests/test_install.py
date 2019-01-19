@@ -12,13 +12,7 @@ client = docker.from_env()
 
 def test_install():
     compose_cmd = ["pbs-ci-compose", "-f", DOCKER_COMPOSE]
-    install_cmd = [
-        "pbs-ci-install",
-        "pbs_master",
-        "/bin/bash",
-        "-c",
-        "echo Hello World!",
-    ]
+    install_cmd = ["pbs-ci-install", "pbs_master", "echo Hello World!"]
     proc_1 = subprocess.Popen(compose_cmd)
     ret_1 = proc_1.wait()
     proc_2 = subprocess.Popen(install_cmd)
