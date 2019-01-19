@@ -19,15 +19,16 @@ class PythonLiteralOption(click.Option):
 
 @click.command()
 @click.version_option(version=__version__)
+@click.option("--user", type=str, default="", help=("User to execute command as"))
 @click.option("--container", type=str, help=("Container"))
 @click.option(
     "--cmd", cls=PythonLiteralOption, default=[], help=("Command to be executed")
 )
-def main(container, cmd):
+def main(user, container, cmd):
     client = docker.from_env()
     containers = client.containers
     container = containers.get(container)
-    ret = container.exec_run(cmd)
+    ret = container.exec_run(cmd=cmd, user=user)
     if ret.exit_code != 0:
         raise ret
     return
