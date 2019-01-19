@@ -16,8 +16,8 @@ def test_docker_compose():
     ret = proc.wait()
     assert ret == 0
 
-    images = client.images.list()
+    images = [client.images.get("andersy005/pbs")]
     assert len(images) == 1
 
-    containers = client.containers.list()
-    assert len(containers) == 3
+    containers = [client.containers.get("pbs_master")]
+    assert len(containers) == 1
