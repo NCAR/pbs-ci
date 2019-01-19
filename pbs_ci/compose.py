@@ -14,7 +14,10 @@ def docker_compose():
     cmd = ["docker-compose", "-f", DOCKER_COMPOSE, "up", "-d"]
     proc = subprocess.Popen(cmd)
     ret = proc.wait()
-    print(ret)
+
+    if ret != 0:
+        raise subprocess.CalledProcessError(ret, cmd)
+    return
 
 
 if __name__ == "__main__":
