@@ -15,7 +15,7 @@ def test_script():
     install_cmd = [
         "pbs-ci-script",
         "--user",
-        "pbs_user",
+        "pbsuser",
         "--container",
         "pbs_master",
         "--cmd",
