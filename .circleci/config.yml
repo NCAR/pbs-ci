@@ -99,17 +99,11 @@ jobs:
             chmod +x /usr/local/bin/docker-compose
 
 
-
-      - run:
-          name: Check docker installation
-          command: |
-            docker version
-            docker-compose version
-
       - run: # install and activate conda environment
           name: configure conda 
           command: ./ci/install-circle.sh
       - run:
+          name: Building and running PBS with Compose
           command: |
             source activate ${ENV_NAME}
             docker version 

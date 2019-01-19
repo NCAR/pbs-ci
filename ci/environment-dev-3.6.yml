@@ -21,4 +21,5 @@ dependencies:
   - pip:
     - sphinx_copybutton
     - click
+    - docker
 
