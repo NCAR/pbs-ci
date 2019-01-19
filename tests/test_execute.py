@@ -33,7 +33,7 @@ client = docker.from_env()
         ],
     ],
 )
-def test_script(cmd):
+def test_exec(cmd):
     compose_cmd = ["pbs-ci-compose", "-f", DOCKER_COMPOSE]
     proc_1 = subprocess.Popen(compose_cmd)
     ret_1 = proc_1.wait()
