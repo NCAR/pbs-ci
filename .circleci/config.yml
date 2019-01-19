@@ -50,14 +50,7 @@ jobs:
 
             echo "[isort]"
             isort --recursive --check-only .
-      - run:
-          name: Check documentation build 
-          command: |
-            source activate ${ENV_NAME}
-            pushd docs
-            make html
-            popd
-
+    
      
       # Cache some files for a speedup in subsequent builds
       - save_cache:
@@ -71,9 +64,5 @@ jobs:
 
       - store_artifacts:
           path: test-reports
-      # Tell Circle to store the documentation output in a folder that we can access later
-      - store_artifacts: 
-          path: docs/_build/html
-          destination: html
-
+   
   
