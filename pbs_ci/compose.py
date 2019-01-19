@@ -5,13 +5,18 @@ import subprocess
 
 import click
 
-DOCKER_COMPOSE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
-
 
 @click.command()
-def docker_compose():
+@click.option(
+    "-f",
+    "--compose_file",
+    type=click.Path(exists=True),
+    show_default=True,
+    help=("Specify a compose file"),
+)
+def docker_compose(compose_file):
     print("Building and running PBS with Compose")
-    cmd = ["docker-compose", "-f", DOCKER_COMPOSE, "up", "-d"]
+    cmd = ["docker-compose", "-f", compose_file, "up", "-d"]
     proc = subprocess.Popen(cmd)
     ret = proc.wait()
 

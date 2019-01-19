@@ -4,10 +4,11 @@ import os
 
 import click
 
-DOCKER_COMPOSE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
+from . import __version__
 
 
 @click.command()
+@click.version_option(version=__version__)
 def main():
     print("Hello World")
 
