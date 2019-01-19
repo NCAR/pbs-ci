@@ -10,7 +10,7 @@ import click
 @click.option(
     "-f",
     "--compose_file",
-    type=click.Path(exists=True),
+    type=click.Path(exists=False),
     show_default=True,
     help=("Specify a compose file"),
 )

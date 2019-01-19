@@ -4,8 +4,8 @@ workflows:
   version: 2
   default:
     jobs:
-      - "python-3.6"
-      - "build-pbs"
+      # - "python-3.6"
+      - "build-pbs-ci"
      
 
 jobs:
@@ -67,7 +67,7 @@ jobs:
           path: test-reports
 
 
-  "build-pbs":
+  "build-pbs-ci":
     docker:
       - image: andersy005/pbs:latest
 
@@ -105,14 +105,32 @@ jobs:
       - run: # install and activate conda environment
           name: configure conda 
           command: ./ci/install-circle.sh
-          
+        
+
       - run:
-          name: Building and running PBS with Compose
+          name: Running Tests 
           command: |
-            source activate ${ENV_NAME}
             docker version 
             docker-compose version 
-            pbs-ci-compose
+            source activate ${ENV_NAME}
+            pytest --junitxml=test-reports/junit.xml --cov=./
+
+      - run:
+          name: Code Coverage + Code Styling with (black, flake8, isort)
+          command: |
+            source activate ${ENV_NAME}
+
+            echo "[Upload coverage]"
+            # codecov
+
+            echo "[flake8]"
+            flake8 
+
+            echo "[black]"
+            black --check . 
+
+            echo "[isort]"
+            isort --recursive --check-only .
 
       - save_cache:
           key: deps-{{ .Branch }}-3.6-{{ checksum "ci/environment-dev-3.6.yml" }}
