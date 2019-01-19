@@ -121,7 +121,7 @@ jobs:
             source activate ${ENV_NAME}
 
             echo "[Upload coverage]"
-            # codecov
+            codecov
 
             echo "[flake8]"
             flake8 
