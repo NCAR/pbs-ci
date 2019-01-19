@@ -101,6 +101,15 @@ jobs:
             docker version
             docker-compose version
 
+      - run: # install and activate conda environment
+          name: configure conda 
+          command: ./ci/install-circle.sh
+      - run:
+          command: |
+            source activate ${ENV_NAME}
+            pbs-ci-compose
+
+
      
 
             

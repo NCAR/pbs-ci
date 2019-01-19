@@ -9,7 +9,7 @@ from setuptools import find_packages, setup
 import versioneer
 
 readme = open("README.rst").read() if exists("README.rst") else ""
-requirements = ["docker"]
+requirements = ["docker", "click"]
 
 
 setup(
@@ -28,4 +28,9 @@ setup(
     keywords="pbs-ci",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
+    entry_points="""
+          [console_scripts]
+          pbs-ci=pbs_ci.cli:main
+          pbs-ci-compose=pbs_ci.compose:docker_compose
+          """,
 )

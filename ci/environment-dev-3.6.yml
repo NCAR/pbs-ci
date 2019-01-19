@@ -5,6 +5,7 @@ dependencies:
   - python=3.6
   - docker-py
   - autopep8
+  - click
   - flake8
   - black
   - isort
