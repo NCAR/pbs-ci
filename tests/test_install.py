@@ -19,6 +19,9 @@ def test_install():
         "-c",
         "echo Hello World!",
     ]
-    subprocess.Popen(compose_cmd)
-    ret = subprocess.Popen(install_cmd)
-    assert ret == 0
+    proc_1 = subprocess.Popen(compose_cmd)
+    ret_1 = proc_1.wait()
+    proc_2 = subprocess.Popen(install_cmd)
+    ret_2 = proc_2.wait()
+    assert ret_1 == 0
+    assert ret_2 == 0
