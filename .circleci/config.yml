@@ -4,7 +4,7 @@ workflows:
   version: 2
   default:
     jobs:
-      # - "python-3.6"
+      - "python-3.6"
       - "build-docker-image"
      
 
@@ -12,7 +12,7 @@ jobs:
  
   "python-3.6":
     docker:
-      - image: continuumio/miniconda:latest
+      - image: andersy005/pbs:latest
 
     environment:
       PYTHON: "3.6"
@@ -69,7 +69,7 @@ jobs:
 
   "build-docker-image":
     docker:
-      - image: continuumio/miniconda:latest
+      - image: andersy005/pbs:latest
     steps:
       - checkout
 
