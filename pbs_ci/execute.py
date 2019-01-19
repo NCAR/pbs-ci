@@ -2,6 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 import ast
 import os
+import subprocess
 
 import click
 import docker
@@ -30,7 +31,7 @@ def main(user, container, cmd):
     container = containers.get(container)
     ret = container.exec_run(cmd=cmd, user=user)
     if ret.exit_code != 0:
-        raise ret
+        raise subprocess.CalledProcessError(ret, cmd)
     return
 
 
