@@ -11,7 +11,7 @@ DOCKER_COMPOSE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
 @click.command()
 def docker_compose():
     print("Building and running PBS with Compose")
-    cmd = ["docker-compose", "up" "-d"]
+    cmd = ["docker-compose", "-f", DOCKER_COMPOSE, "up", "-d"]
     proc = subprocess.Popen(cmd)
     ret = proc.wait()
     print(ret)
