@@ -74,7 +74,7 @@ jobs:
     environment:
       PYTHON: "3.6"
       ENV_NAME: "pbs-ci-dev"
-      
+
     steps:
       - checkout
 
@@ -112,6 +112,8 @@ jobs:
       - run:
           command: |
             source activate ${ENV_NAME}
+            docker version 
+            docker-compose version 
             pbs-ci-compose
 
 

@@ -9,7 +9,7 @@ from setuptools import find_packages, setup
 import versioneer
 
 readme = open("README.rst").read() if exists("README.rst") else ""
-requirements = ["docker", "click"]
+requirements = ["click"]
 
 
 setup(
