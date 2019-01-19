@@ -2,7 +2,7 @@
 PBS CI
 ===============================
 
-.. image:: https://img.shields.io/circleci/project/github/NCAR/pbs-ci/master.svg?style=for-the-badge
+.. image:: https://img.shields.io/circleci/project/github/NCAR/pbs-ci/master.svg?style=for-the-badge&logo=circleci
     :target: https://circleci.com/gh/NCAR/pbs-ci/tree/master
 
 .. image:: https://img.shields.io/codecov/c/github/NCAR/pbs-ci.svg?style=for-the-badge

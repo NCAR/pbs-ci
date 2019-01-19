@@ -5,13 +5,14 @@ workflows:
   default:
     jobs:
       - "python-3.6"
+      - "build-docker-image"
      
 
 jobs:
  
   "python-3.6":
     docker:
-      - image: continuumio/miniconda:latest
+      - image: andersy005/pbs:latest
 
     environment:
       PYTHON: "3.6"
@@ -64,5 +65,47 @@ jobs:
 
       - store_artifacts:
           path: test-reports
+
+
+  "build-docker-image":
+    docker:
+      - image: andersy005/pbs:latest
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true 
+
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="18.09.1"
+            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+
+      - run: 
+          name: Install Docker Compose
+          command: |
+            set -x 
+            VER="1.23.2"
+            curl -L https://github.com/docker/compose/releases/download/$VER/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+            chmod +x /usr/local/bin/docker-compose
+
+
+
+      - run:
+          name: Check docker installation
+          command: |
+            docker version
+            docker-compose version
+
+     
+
+            
+      
+          
+
    
   
