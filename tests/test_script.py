@@ -4,6 +4,7 @@ import os
 import subprocess
 
 import docker
+import sleep
 
 DOCKER_COMPOSE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
 
@@ -23,6 +24,7 @@ def test_script():
     ]
     proc_1 = subprocess.Popen(compose_cmd)
     ret_1 = proc_1.wait()
+    sleep(20)
     proc_2 = subprocess.Popen(script_cmd)
     ret_2 = proc_2.wait()
     assert ret_1 == 0
