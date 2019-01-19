@@ -5,6 +5,7 @@ workflows:
   default:
     jobs:
       - "python-3.6"
+      - "build-docker-image"
      
 
 jobs:
@@ -32,8 +33,6 @@ jobs:
       - run:
           command: |
             source activate ${ENV_NAME}
-            docker version
-            docker-compose version
             # pytest --junitxml=test-reports/junit.xml --cov=./
 
       - run:
@@ -66,5 +65,31 @@ jobs:
 
       - store_artifacts:
           path: test-reports
+
+
+  "build-docker-image":
+    docker:
+      - image: continuumio/miniconda:latest
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true 
+
+      - run:
+          name: Install Docker client
+          command: |
+          set -x
+          VER="17.03.0-ce"
+          curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+          tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          mv /tmp/docker/* /usr/bin
+
+      - run:
+          name: Check docker installation
+          command: |
+            docker version
+          
+
    
   
