@@ -12,7 +12,7 @@ client = docker.from_env()
 
 def test_script():
     compose_cmd = ["pbs-ci-compose", "-f", DOCKER_COMPOSE]
-    install_cmd = [
+    script_cmd = [
         "pbs-ci-script",
         "--user",
         "pbsuser",
@@ -23,7 +23,7 @@ def test_script():
     ]
     proc_1 = subprocess.Popen(compose_cmd)
     ret_1 = proc_1.wait()
-    proc_2 = subprocess.Popen(install_cmd)
+    proc_2 = subprocess.Popen(script_cmd)
     ret_2 = proc_2.wait()
     assert ret_1 == 0
     assert ret_2 == 0
