@@ -30,7 +30,7 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     entry_points="""
           [console_scripts]
-          pbs-ci=pbs_ci.cli:main
+          pbs-ci-install=pbs_ci.install:main
           pbs-ci-compose=pbs_ci.compose:docker_compose
           """,
 )
