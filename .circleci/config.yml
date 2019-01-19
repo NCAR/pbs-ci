@@ -5,7 +5,7 @@ workflows:
   default:
     jobs:
       - "python-3.6"
-      - "build-docker-image"
+      - "build-pbs"
      
 
 jobs:
@@ -67,11 +67,19 @@ jobs:
           path: test-reports
 
 
-  "build-docker-image":
+  "build-pbs":
     docker:
       - image: andersy005/pbs:latest
+
+    environment:
+      PYTHON: "3.6"
+      ENV_NAME: "pbs-ci-dev"
+
     steps:
       - checkout
+
+      - restore_cache:
+          key: deps-{{ .Branch }}-3.6-{{ checksum "ci/environment-dev-3.6.yml" }}
 
       - setup_remote_docker:
           docker_layer_caching: true 
@@ -94,12 +102,24 @@ jobs:
             chmod +x /usr/local/bin/docker-compose
 
 
-
+      - run: # install and activate conda environment
+          name: configure conda 
+          command: ./ci/install-circle.sh
+          
       - run:
-          name: Check docker installation
+          name: Building and running PBS with Compose
           command: |
-            docker version
-            docker-compose version
+            source activate ${ENV_NAME}
+            docker version 
+            docker-compose version 
+            pbs-ci-compose
+
+      - save_cache:
+          key: deps-{{ .Branch }}-3.6-{{ checksum "ci/environment-dev-3.6.yml" }}
+          paths:
+            - "/opt/conda/envs/${ENV_NAME}/"
+            - "/opt/conda/pkgs"
+
 
      
 
