@@ -37,4 +37,4 @@ COPY ./*.sh /
 RUN chmod a+x ./*.sh
 
 # default entrypoint launch pbs master
-ENTRYPOINT ["bash",]
+ENTRYPOINT ["bash", "/master-entrypoint.sh"]
