@@ -70,6 +70,11 @@ jobs:
   "build-docker-image":
     docker:
       - image: andersy005/pbs:latest
+
+    environment:
+      PYTHON: "3.6"
+      ENV_NAME: "pbs-ci-dev"
+      
     steps:
       - checkout
 
