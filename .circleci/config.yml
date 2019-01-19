@@ -24,7 +24,7 @@ jobs:
 
       # Restore cached files to speed things up
       - restore_cache:
-          key: deps-3.6
+          key: deps-{{ .Branch }}-3.6-{{ checksum "ci/environment-dev-3.6.yml" }}
 
       - run: # install and activate conda environment
           name: configure conda 
@@ -61,7 +61,7 @@ jobs:
      
       # Cache some files for a speedup in subsequent builds
       - save_cache:
-          key: deps-3.6
+          key: deps-{{ .Branch }}-3.6-{{ checksum "ci/environment-dev-3.6.yml" }}
           paths:
             - "/opt/conda/envs/${ENV_NAME}/"
             - "/opt/conda/pkgs"
