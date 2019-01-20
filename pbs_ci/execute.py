@@ -8,6 +8,7 @@ import click
 import docker
 
 from . import __version__
+from .utils import execute_cmd
 
 
 class PythonLiteralOption(click.Option):
@@ -20,19 +21,15 @@ class PythonLiteralOption(click.Option):
 
 @click.command()
 @click.version_option(version=__version__)
-@click.option("--user", type=str, default="", help=("User to execute command as"))
-@click.option("--container", type=str, help=("Container"))
 @click.option(
     "--cmd", cls=PythonLiteralOption, default=[], help=("Command to be executed")
 )
-def main(user, container, cmd):
-    client = docker.from_env()
-    containers = client.containers
-    container = containers.get(container)
-    ret = container.exec_run(cmd=cmd, user=user)
-    if ret.exit_code != 0:
-        raise subprocess.CalledProcessError(ret, cmd)
-    return
+@click.option(
+    "--capture", type=bool, default=True, help=("Yield output line by line if True")
+)
+def main(cmd, capture):
+    for line in execute_cmd(cmd, capture):
+        print(line)
 
 
 if __name__ == "__main__":

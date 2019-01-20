@@ -4,41 +4,43 @@ import os
 import subprocess
 import time
 
-import docker
 import pytest
 
-DOCKER_COMPOSE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
+from pbs_ci.execute import execute_cmd
 
-client = docker.from_env()
+DOCKER_COMPOSE_FILE = os.path.join(os.path.dirname(__file__), "docker-compose.yml")
 
 
-@pytest.mark.parametrize(
-    "cmd",
-    [
-        [
-            "pbs-ci-execute",
-            "--user",
-            "pbsuser",
-            "--container",
-            "pbs_master",
-            "--cmd",
-            '["/bin/bash", "-c","python --version; echo Hello world; bash --version"]',
-        ],
-        [
-            "pbs-ci-execute",
-            "--container",
-            "pbs_master",
-            "--cmd",
-            '["/bin/bash", "-c","python --version; echo Hello world; bash --version"]',
-        ],
-    ],
-)
-def test_exec(cmd):
-    compose_cmd = ["pbs-ci-compose", "-f", DOCKER_COMPOSE]
-    proc_1 = subprocess.Popen(compose_cmd)
-    ret_1 = proc_1.wait()
-    time.sleep(20)
-    proc_2 = subprocess.Popen(cmd)
-    ret_2 = proc_2.wait()
-    assert ret_1 == 0
-    assert ret_2 == 0
+def docker_compose():
+    cmd = ["docker-compose", "-f", DOCKER_COMPOSE_FILE, "up", "-d"]
+    for line in execute_cmd(cmd, capture=False):
+        pass
+
+
+docker_compose()
+
+
+def test_capture_cmd_no_capture_success():
+    # This should succeed
+    for line in execute_cmd(["/bin/bash", "-c", "echo test"]):
+        pass
+
+
+def test_capture_cmd_no_capture_fail():
+    with pytest.raises(subprocess.CalledProcessError):
+        for line in execute_cmd(["/bin/bash", "-c", "e "]):
+            pass
+
+
+def test_capture_cmd_capture_success():
+    # This should succeed
+    for line in execute_cmd(["/bin/bash", "-c", "echo test"], capture=True):
+        assert line == "test\n"
+
+
+def test_capture_cmd_capture_fail():
+    with pytest.raises(subprocess.CalledProcessError):
+        for line in execute_cmd(
+            ["/bin/bash", "-c", "echo test; exit 1 "], capture=True
+        ):
+            assert line == "test\n"
